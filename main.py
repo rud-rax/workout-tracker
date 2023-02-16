@@ -1,7 +1,11 @@
 import mediapipe as mp
+import cv2
+import configparser
 
 
-if __name__ == "__main__" :
+    
 
-    print("Workout Tracker")
-    print("give me access")
+class Exercises:
+    def __init__(self) -> None:
+        pass
+
