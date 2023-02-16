@@ -1,7 +1,17 @@
-import mediapipe as mp
+from mediapipe import solutions
 
 
-mp_pose = mp.solutions.pose
 
-for i,landmark in enumerate(mp_pose.PoseLandmark) :
-    print(i,landmark)
+
+
+
+
+class LandmarkInfo :
+    def __init__(self,landmarks) -> None:
+        self.landmarks = landmarks
+
+    def displayLandmarksIndices(self) : 
+        for i,landmark in enumerate(solutions.pose.PoseLandmark) :
+            print(i,landmark)
+
+
