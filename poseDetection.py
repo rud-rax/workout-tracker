@@ -9,7 +9,6 @@ class PoseDetectionModel :
     def __init__(self) :
 
         self.setPoseDetectionParams()
-        
         self.model = mp.solutions.pose.Pose(min_detection_confidence = self.min_detection_confidence ,min_tracking_confidence = self.min_tracking_confidence)
 
     def setPoseDetectionParams(self):
