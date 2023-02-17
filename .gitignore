@@ -1,2 +1,4 @@
 __pycache__/*.pyc
 exercises/__pycache__/*
+__pycache__/poseDetection.cython-38.pyc
+__pycache__/videoProcessing.cython-38.pyc
