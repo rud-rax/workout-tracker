@@ -10,7 +10,7 @@ from landmarkInfo import *
 
 # MEDIAPOSE DRAWING VARIABLES
 MP_DRAWING_UTILS = mp.solutions.drawing_utils
-DRAWING_SPEC_1 = MP_DRAWING_UTILS.DrawingSpec(color = (19, 0, 90) , thickness = 4 , circle_radius = 4)
+DRAWING_SPEC_1 = MP_DRAWING_UTILS.DrawingSpec(color = ( 19,   0,  90) , thickness = 4 , circle_radius = 4)
 DRAWING_SPEC_2 = MP_DRAWING_UTILS.DrawingSpec(color = (253, 255, 255) , thickness = 4 , circle_radius = 4)
 
 # TEMPORARY GLOBAL VARIABLES USED FOR TESTING PURPOSES
@@ -29,11 +29,14 @@ class VideoProcessing :
         pd = PoseDetectionModel()
         self.pose_model = pd.model
 
-        self.landmarksInfo = LandmarkInfo()
+        # self.landmarksInfo = LandmarkInfo()
 
         self.setVideoProcessingParams()
 
         self.image = None
+        self.results = None
+
+        self.exercise = None
 
     def setVideoProcessingParams(self) :
         '''
@@ -57,35 +60,39 @@ class VideoProcessing :
         
         1st param - Path of videofile. By default set to '0' which starts the capturing live feed from the webcam.
         '''
-
-        cap = cv2.VideoCapture(0)
+        
+        cap = cv2.VideoCapture(file)
         while cap.isOpened() : 
             ret,frame = cap.read()
 
             self.imagePreprocessing(frame)
             
-            results = self.pose_model.process(self.image)
+            self.results = self.pose_model.process(self.image)
 
             try : 
-                landmarks = results.pose_landmarks.landmark
-           
-                self.landmarksInfo.landmarks = landmarks
+                landmarks = self.results.pose_landmarks.landmark
                 # print(landmarks)
-                print(self.landmarksInfo.calculateAngle(16,14,12))
+                try : 
+                    self.exercise.landmarkInfo.landmarks = landmarks
+                    
+                    # FOR TESTING PURPOSES
+                    # print(landmarks)
+
+                    # EVALUATE EXERCISE HERE
+                    self.exercise.evaluate()
+
+                    # PLOT LANDMARKS OR DISPLAY TEXT ON THE IMAGE
+                    # self.imageModify([angle,(100,100)])
+                    self.imageModify()
+
+                except Exception as e:
+                    print(e)
 
             except AttributeError :
                 print("No Landmarks found !")
 
 
             self.imageDisplayProcessing()
-
-            # UNCOMMENT TO TEST WITH 'connections' VARIABLE FOR A SPECIFIC EXERCISE
-            # self.plotLandmarks(landmarks , connections)
-
-            # UNCOMMENT TO TEST WITH THE GLOBAL VARIABLE 'CONNECTIONS'
-            self.plotLandmarks(results , CONNECTIONS)
-
-
 
             cv2.imshow("Camera Feed" , self.image)
 
@@ -116,8 +123,31 @@ class VideoProcessing :
         self.image.flags.writeable = True
         self.image = cv2.cvtColor(self.image , CVT_MODE)
 
+    def imageModify(self,*args,display_landmarks = True) : 
+        '''
+        Plots landmarks and display text on the image.
+        Text can be displayed on the image by passing one or more tuples in the form (TEXT, POSITION)
+            - TEXT should be a string
+            - POSITION should be a tuple in the form (x,y) where x and y are the coordinates to display the text for the image.
+        '''
 
-    def plotLandmarks(self,landmarks,connections) :
+        if display_landmarks : 
+            # UNCOMMENT TO TEST WITH 'connections' VARIABLE FOR A SPECIFIC EXERCISE
+            self.plotLandmarks()
+
+            # UNCOMMENT TO TEST WITH THE GLOBAL VARIABLE 'CONNECTIONS'
+            # self.plotLandmarks(CONNECTIONS)
+
+        for arg in args :
+            # print(arg[0])
+            self.putText(arg[0],arg[1])
+
+
+    def putText(self,text , position : tuple , font = cv2.FONT_HERSHEY_SIMPLEX , fontscale = 0.5, color : tuple = (255,255,255) , thickness = 2 , linetype = cv2.LINE_AA ) : 
+        cv2.putText(self.image,text,position,font , fontscale,color ,thickness, linetype)
+
+
+    def plotLandmarks(self) :
         '''
         Plots landmarks on the image.
 
@@ -126,5 +156,12 @@ class VideoProcessing :
         '''
 
         # print(landmarks)
-        MP_DRAWING_UTILS.draw_landmarks(self.image , landmarks.pose_landmarks , connections , DRAWING_SPEC_1,DRAWING_SPEC_2)
+        MP_DRAWING_UTILS.draw_landmarks(self.image , self.results.pose_landmarks , self.exercise.connections , DRAWING_SPEC_1,DRAWING_SPEC_2)
 
+
+
+def testingEvaluate() : 
+    # angle = self.landmarksInfo.calculateAngle(16,14,12)
+    # print(angle)
+    # angle = str(round(angle, 2))
+    print("Evaluating Exercise !!!")
