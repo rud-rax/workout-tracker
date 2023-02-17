@@ -7,10 +7,10 @@ DEFAULT_LANDMARKS_1 = {5,0,2}
 
 
 class LandmarkInfo :
-    def __init__(self,landmarks = DEFAULT_LANDMARKS_1) -> None:
+    def __init__(self,landmarks = None) -> None:
         self.landmarks = landmarks
 
-    def displayLandmarksIndices(self) : 
+    def displayLandmarksIndices(self) :
         for i,landmark in enumerate(solutions.pose.PoseLandmark) :
             print(i,landmark)
 
@@ -44,7 +44,11 @@ class LandmarkInfo :
         return angle
 
     def getLandmarkCoordinates(self,landmark) :
-        # print(solutions.pose.PoseLandmark.LEFT_ELBOW.value)
+        '''
+        Returns Landmark Coordinates for a specific landmark
+        1st param : Landmark
+        '''
+
         return self.landmarks[landmark].x , self.landmarks[landmark].y
 
 
