@@ -5,7 +5,3 @@ import configparser
 
     
 
-class Exercises:
-    def __init__(self) -> None:
-        pass
-

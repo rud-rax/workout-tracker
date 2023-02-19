@@ -1,19 +1,23 @@
 import sys
 import os
-from landmarkInfo import *
 
-sys.path.insert(1,sys.path[0]+r"/..")
+from exercise import *
 
-class ArmStretch :
+# from landmarkInfo import *
+
+class ArmStretch(Exercise) :
     def __init__(self) -> None:
+
+        Exercise.__init__(self)
+        
         self.name = "Arm Stretch"
+
+        print(self.name)
 
         self.connections = {
             (14,12),
             (14,16)
         }
-
-        self.landmarkInfo = LandmarkInfo()
 
         self.params = {
             'counter' : 0,
@@ -41,5 +45,10 @@ class ArmStretch :
 
 
 if __name__ == "__main__" :
-    print(os.listdir(sys.path[0]+"/.."))
+    # print(os.listdir(sys.path[0]+"/.."))
+    # exe = Exercise()
+    # exe.evaluate()
     
+
+    exe = ArmStretch()
+    print(exe.landmarkInfo)

@@ -1,3 +1,7 @@
+import sys
+
+sys.path.insert(0 , sys.path[0] + '/exercises')
+
 from videoProcessing import *
 from exercises.sample1 import ArmStretch
 
