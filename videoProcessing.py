@@ -62,6 +62,8 @@ class VideoProcessing :
         '''
         
         cap = cv2.VideoCapture(file)
+        endloop = False
+
         while cap.isOpened() : 
             ret,frame = cap.read()
 
@@ -79,11 +81,11 @@ class VideoProcessing :
                     # print(landmarks)
 
                     # EVALUATE EXERCISE HERE
-                    self.exercise.evaluate()
+                    endloop = self.exercise.evaluate()
 
                     # PLOT LANDMARKS OR DISPLAY TEXT ON THE IMAGE
                     # self.imageModify([angle,(100,100)])
-                    self.imageModify()
+                    self.imageModify([self.exercise.params['counter'] , (100,100)])
 
                 except Exception as e:
                     print(e)
@@ -96,7 +98,7 @@ class VideoProcessing :
 
             cv2.imshow("Camera Feed" , self.image)
 
-            if cv2.waitKey(self.feed_delay) & 0xFF == ord(self.feed_exit_key) : 
+            if (cv2.waitKey(self.feed_delay) & 0xFF == ord(self.feed_exit_key)) or (endloop): 
                 break
 
         cap.release()
@@ -140,10 +142,22 @@ class VideoProcessing :
 
         for arg in args :
             # print(arg[0])
-            self.putText(arg[0],arg[1])
+            self.putText(str(arg[0]),arg[1])
 
 
-    def putText(self,text , position : tuple , font = cv2.FONT_HERSHEY_SIMPLEX , fontscale = 0.5, color : tuple = (255,255,255) , thickness = 2 , linetype = cv2.LINE_AA ) : 
+    def putText(self,text , position : tuple , font = cv2.FONT_HERSHEY_SIMPLEX , fontscale = 1, color : tuple = (255,255,255) , thickness = 2 , linetype = cv2.LINE_AA ) : 
+        '''
+        Display text on the image.
+
+        1st param : Text to display.
+        2nd param : Position to display on the image in the form of x and y coordinates. [x,y]
+        3rd param : Font of the text.
+        4th param : Scale of the text.
+        5th param : Color of the text.
+        6th param : Thickness of the text.
+        7th param : LineType of the text.
+
+        '''
         cv2.putText(self.image,text,position,font , fontscale,color ,thickness, linetype)
 
 

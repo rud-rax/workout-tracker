@@ -1,6 +1,8 @@
 import sys
+import os
 from landmarkInfo import *
-sys.path.append(1,r"/Users/ha5hkat/PROGRAMS/WorkoutApp/workout-tracker/landmarkInfo.py")
+
+sys.path.insert(1,sys.path[0]+r"/..")
 
 class ArmStretch :
     def __init__(self) -> None:
@@ -22,8 +24,6 @@ class ArmStretch :
     def evaluate(self) : 
 
         self.params['arm_angle'] = self.landmarkInfo.calculateAngle(12,14,16)
-        # print(self.params['arm_angle'])
-
 
         print(self.params['arm_state'] , self.params['counter'] , self.params['arm_angle'])
 
@@ -34,14 +34,12 @@ class ArmStretch :
             self.params['arm_state'] = 1
             self.params['counter'] += 1
             # print(self.params['counter'])
-        
+
+        if self.params['counter'] == 10 :
+            return True
+        return False      
 
 
-
-
-      
-            
-
-
-
-
+if __name__ == "__main__" :
+    print(os.listdir(sys.path[0]+"/.."))
+    
