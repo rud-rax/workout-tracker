@@ -5,37 +5,34 @@ from exercise import *
 
 # from landmarkInfo import *
 
-class ArmStretch(Exercise) :
+class legStretch(Exercise) :
     def __init__(self) -> None:
 
         Exercise.__init__(self)
          
-        self.name = "Arm Stretch"
+        self.name = "leg Stretch"
 
         print(self.name)
-
         self.connections = {
-            (14,12),
-            (14,16)
+            (24,26),
+            (26,28)
         }
-
         self.params = {
             'counter' : 0,
-            'arm_state' : 0,
-            'arm_angle' : 0
+            'leg_state' : 0,
+            'leg_angle' : 0
         }
-
     def evaluate(self) : 
 
-        self.params['arm_angle'] = self.landmarkInfo.calculateAngle(12,14,16)
+        self.params['leg_angle'] = self.landmarkInfo.calculateAngle(24,26,28)
 
-        print(self.params['arm_state'] , self.params['counter'] , self.params['arm_angle'])
+        print(self.params['leg_state'] , self.params['counter'] , self.params['leg_angle'])
 
-        if self.params['arm_angle'] > 160 :
-            self.params['arm_state'] = 0
+        if self.params['leg_angle'] > 160 :
+            self.params['leg_state'] = 0
 
-        if self.params['arm_angle'] < 50 and self.params['arm_state'] == 0 :
-            self.params['arm_state'] = 1
+        if self.params['leg_angle'] < 50 and self.params['leg_state'] == 0 :
+            self.params['leg_state'] = 1
             self.params['counter'] += 1
             # print(self.params['counter'])
 
@@ -50,5 +47,5 @@ if __name__ == "__main__" :
     # exe.evaluate()
     
 
-    exe = ArmStretch()
+    exe = legStretch()
     print(exe.landmarkInfo)

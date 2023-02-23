@@ -85,7 +85,8 @@ class VideoProcessing :
 
                     # PLOT LANDMARKS OR DISPLAY TEXT ON THE IMAGE
                     # self.imageModify([angle,(100,100)])
-                    self.imageModify([self.exercise.params['counter'] , (100,100)])
+                    self.imageModify([self.exercise.params['left_hand_state'] , (100,100)] , [self.exercise.params['right_hand_state'] , (200,100)], [self.exercise.params['counter'] , (300,100)])
+
 
                 except Exception as e:
                     print(e)
@@ -145,7 +146,7 @@ class VideoProcessing :
             self.putText(str(arg[0]),arg[1])
 
 
-    def putText(self,text , position : tuple , font = cv2.FONT_HERSHEY_SIMPLEX , fontscale = 1, color : tuple = (255,255,255) , thickness = 2 , linetype = cv2.LINE_AA ) : 
+    def putText(self,text , position : tuple , font = cv2.FONT_HERSHEY_SIMPLEX , fontscale = 1, color : tuple = (255,0,0) , thickness = 2 , linetype = cv2.LINE_AA ) : 
         '''
         Display text on the image.
 
