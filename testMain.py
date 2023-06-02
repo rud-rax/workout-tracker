@@ -9,4 +9,3 @@ from exercises.lateralRaises import LateralRaises
 vc = VideoProcessing()
 vc.exercise = LateralRaises()
 vc.capture()
-

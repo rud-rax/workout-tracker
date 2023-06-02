@@ -1,9 +1,20 @@
 from exercise import *
 import configparser
+# from playsound import playsound
+from pydub import AudioSegment
+from pydub.playback import play
+
+# SOUNDPATH = "./exercises/beep1.wav"
+SOUND_PATH = "exercises/beep1.wav"
+SOUND = AudioSegment.from_wav(SOUND_PATH)
+
+
 
 class LateralRaises(Exercise) :
-    def __init__(self) -> None:
+    def __init__(self , rep_count) -> None:
         super().__init__()
+
+        self.rep_count = rep_count
 
         self.name = "Lateral Raises"
 
@@ -28,6 +39,12 @@ class LateralRaises(Exercise) :
         }
 
     def calculateParams(self) :
+
+        check_state = {
+            0 : 'upstate', 
+            1 : 'downstate'
+        }
+        
         self.params['right_elbow_angle'] = self.landmarkInfo.calculateAngle(16,14,12)
         self.params['left_elbow_angle'] = self.landmarkInfo.calculateAngle(15,13,11)
         self.params['right_shoulder_angle'] = self.landmarkInfo.calculateAngle(14,12,24)
@@ -50,18 +67,22 @@ class LateralRaises(Exercise) :
         if self.params['left_hand_state'] and self.params['right_hand_state'] and (self.params['both_hand_state'] == 0) :
             self.params['counter'] += 1
             self.params['both_hand_state'] = 1
+            play(SOUND)
+
+        if not (self.params['left_hand_state'] and self.params['right_hand_state']) and (self.params['both_hand_state'] == 1) :
+            # self.params['counter'] += 1
+            self.params['both_hand_state'] = 0
+            play(SOUND)
+
+        # if self.params['left_hand_state'] and not self.params['right_hand_state']
 
 
     def evaluate(self):
         self.calculateParams()
 
-        # for k in self.params.keys() :
-        #     print(f"{k} {self.params[k]}",end = " - ")
+        
 
-        # print()
-        state = 0 
-
-        if self.params['counter'] == 10 :
+        if self.params['counter'] == self.rep_count :
             return True
 
 

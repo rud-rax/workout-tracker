@@ -41,6 +41,7 @@ class VideoProcessing :
     def setVideoProcessingParams(self) :
         '''
         Sets Video Processing Parameters specified in the config file.
+   
         The path of the config file is specified in the global variable 'CONFIG_FILE_PATH'.
         '''
 
@@ -85,7 +86,8 @@ class VideoProcessing :
 
                     # PLOT LANDMARKS OR DISPLAY TEXT ON THE IMAGE
                     # self.imageModify([angle,(100,100)])
-                    self.imageModify([self.exercise.params['left_hand_state'] , (100,100)] , [self.exercise.params['right_hand_state'] , (200,100)], [self.exercise.params['counter'] , (300,100)])
+                    # self.imageModify([self.exercise.params['counter'] , (100,100)])
+                    self.imageModify([self.exercise.params['counter'] , (100,100)] , [self.exercise.params['left_hand_state'] , (200,100)],[self.exercise.params['right_hand_state'] , (300,100)],[self.exercise.name , (100,200)] ,[self.exercise.rep_count , (100,300)])
 
 
                 except Exception as e:
