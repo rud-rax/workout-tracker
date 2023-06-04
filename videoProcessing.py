@@ -41,6 +41,7 @@ class VideoProcessing :
     def setVideoProcessingParams(self) :
         '''
         Sets Video Processing Parameters specified in the config file.
+   
         The path of the config file is specified in the global variable 'CONFIG_FILE_PATH'.
         '''
 
@@ -85,7 +86,9 @@ class VideoProcessing :
 
                     # PLOT LANDMARKS OR DISPLAY TEXT ON THE IMAGE
                     # self.imageModify([angle,(100,100)])
-                    self.imageModify([self.exercise.params['counter'] , (100,100)])
+                    # self.imageModify([self.exercise.params['counter'] , (100,100)])
+                    self.imageModify(*self.exercise.imageText)
+
 
                 except Exception as e:
                     print(e)
@@ -145,7 +148,7 @@ class VideoProcessing :
             self.putText(str(arg[0]),arg[1])
 
 
-    def putText(self,text , position : tuple , font = cv2.FONT_HERSHEY_SIMPLEX , fontscale = 1, color : tuple = (255,255,255) , thickness = 2 , linetype = cv2.LINE_AA ) : 
+    def putText(self,text , position : tuple , font = cv2.FONT_HERSHEY_SIMPLEX , fontscale = 2, color : tuple = (237,43,42) , thickness = 5 , linetype = cv2.LINE_AA ) : 
         '''
         Display text on the image.
 
