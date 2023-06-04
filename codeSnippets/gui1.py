@@ -1,24 +1,23 @@
 import tkinter as tk
-from tkinter import messagebox
 from PIL import Image, ImageTk
-# from tkmacosx import Button , Label
 import sys
-from pydub.playback import play
 
 sys.path.insert(0 , sys.path[0] + '/exercises')
 
-from sounds_variable import *
 from videoProcessing import *
- 
+from exercises.sample1 import ArmStretch
 from exercises.lateralRaises2 import LateralRaises
-from exercises.bicepCurl import BicepCurls
+# from exercises.sample3 import legStretch
+
+
+
 
 class Application(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Workout Tracker")
         self.configure(bg="lightblue")
-        self.geometry("960x600")
+        self.geometry("800x600")
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
         self.frames = {}
@@ -63,7 +62,7 @@ class ExercisePage(tk.Frame):
         exercise_title = tk.Label(self, text="Select Your Exercise", font=("Arial", 16), bg="lightblue")
         exercise_title.place(relx=0.5, rely=0.3, anchor="center")
 
-        exercises = ["Lateral Raises", "Bicep Curls"]
+        exercises = ["Lateral Raises", "Arm Curl"]
         self.exercise_variable = tk.StringVar(self)
         self.exercise_variable.set(exercises[0])
         exercise_dropdown = tk.OptionMenu(self, self.exercise_variable, *exercises)
@@ -78,7 +77,7 @@ class ExercisePage(tk.Frame):
 
         back_button = tk.Button(self, text="Back", command=lambda: parent.show_frame(StartPage),
                                 font=("Arial", 16), bg="red", fg="white", height=2, width=20)
-        back_button.place(relx=0.5, rely=0.8, anchor="center")
+        back_button.place(relx=0.5, rely=0.7, anchor="center")
 
         start_button = tk.Button(self, text="Start Exercise", command=self.start_exercise,
                                  font=("Arial", 16), bg="green", fg="white", height=2, width=20)
@@ -86,27 +85,21 @@ class ExercisePage(tk.Frame):
 
     def start_exercise(self):
         selected_exercise = self.exercise_variable.get()
-        rep_count = self.rep_count.get()
-
-         # Check the value of the rep count
-        if not rep_count.isdigit() or int(rep_count) < 1 or int(rep_count) > 30:
-            messagebox.showerror("Invalid Rep Count", "Please enter the number of reps between 1-30")
-            return
+        rc = self.rep_count.get()
 
         # Print the values on the terminal
         print("Selected Exercise:", selected_exercise)
-        print("Number of Reps:", rep_count)
+        print("Number of Reps:", rc)
 
         EXERCISES = {
-            "Lateral Raises" : LateralRaises(rep_count),
-            "Bicep Curls" : BicepCurls(rep_count)
+            "Lateral Raises" : LateralRaises(rep_count= rc)
         }
-        
+
         vc = VideoProcessing()
         vc.exercise = EXERCISES[selected_exercise]
         vc.capture()
 
-        exercise_details = (selected_exercise, rep_count)
+        exercise_details = (selected_exercise, rc)
         self.master.frames[ExerciseDetailsPage].update_details(exercise_details)
         self.master.show_frame(ExerciseDetailsPage)
 
@@ -127,12 +120,10 @@ class ExerciseDetailsPage(tk.Frame):
         selected_exercise, rep_count = exercise_details
         self.exercise_label.configure(text=f"Selected Exercise: {selected_exercise}")
         self.rep_label.configure(text=f"Number of Reps: {rep_count}")
-        play(WELL_DONE_SOUND)
-        
 
 if __name__ == "__main__":
     app = Application()
-    app.set_background_image(app.frames[StartPage], "images/bg.jpg")
-    app.set_background_image(app.frames[ExercisePage], "images/bg.jpg")
-    app.set_background_image(app.frames[ExerciseDetailsPage], "images/bg.jpg")
+    # app.set_background_image(app.frames[StartPage], "retroBG.png")
+    # app.set_background_image(app.frames[ExercisePage], "ZoeBg.png")
+    # app.set_background_image(app.frames[ExerciseDetailsPage], "".png")
     app.mainloop()
