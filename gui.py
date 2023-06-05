@@ -51,7 +51,7 @@ class StartPage(tk.Frame):
         title_label = tk.Label(self, text="WORKOUT TRACKER", font=("Arial", 32), bg="lightblue")
         title_label.place(relx=0.5, rely=0.3, anchor="center")
         start_exercise_button = tk.Button(self, text="Start Exercise", command=lambda: parent.show_frame(ExercisePage),
-                                          font=("Arial", 16), bg="red", fg="white", height=2, width=20)
+                                          font=("Arial", 16), bg="red", fg="black", height=2, width=20)
         start_exercise_button.place(relx=0.5, rely=0.5, anchor="center")
 
 class ExercisePage(tk.Frame):
@@ -77,11 +77,11 @@ class ExercisePage(tk.Frame):
         rep_entry.place(relx=0.5, rely=0.5, anchor="w")
 
         back_button = tk.Button(self, text="Back", command=lambda: parent.show_frame(StartPage),
-                                font=("Arial", 16), bg="red", fg="white", height=2, width=20)
+                                font=("Arial", 16), bg="red", fg="black", height=2, width=20)
         back_button.place(relx=0.5, rely=0.8, anchor="center")
 
         start_button = tk.Button(self, text="Start Exercise", command=self.start_exercise,
-                                 font=("Arial", 16), bg="green", fg="white", height=2, width=20)
+                                 font=("Arial", 16), bg="green", fg="black", height=2, width=20)
         start_button.place(relx=0.5, rely=0.6, anchor="center")
 
     def start_exercise(self):
